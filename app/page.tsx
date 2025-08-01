@@ -1,78 +1,26 @@
-"use client"
-
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import {
-  BookOpen,
-  Users,
-  Newspaper,
-  Building,
-  Menu,
-  ArrowRight,
-  CheckCircle,
-  Globe,
-  Shield,
-  Zap,
-  X,
-  User,
-  Settings,
-  BookmarkIcon,
-  LogOut,
-  Bell,
-} from "lucide-react"
-import { Badge } from "@/components/ui/badge"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Separator } from "@/components/ui/separator"
-import { useState } from "react"
-
-export default function HomePage() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  // Mock user state - in real app this would come from auth context/state management
-  const [isLoggedIn, setIsLoggedIn] = useState(true) // Change to false to see logged out state
-  const [user] = useState({
-    name: "John Adamu",
-    email: "john.adamu@email.com",
-    role: "Student",
-    avatar: "/placeholder-user.jpg",
-    notifications: 3,
-  })
-
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen)
-  }
-
-  const closeMobileMenu = () => {
-    setIsMobileMenuOpen(false)
-  }
-
-  const handleLogout = () => {
-    setIsLoggedIn(false)
-    closeMobileMenu()
-    // In real app, handle logout logic here
-  }
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-blue-50">
-      {/* Modern Header */}
-      <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-lg border-b border-gray-200/50 shadow-sm">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            {/* Logo */}
-            <div className="flex items-center space-x-3">
-              <div className="relative">
-                <div className=logo">
-                  <span className="img ssrc=.app/public/DIGITALIZE NASARAWA LOGO.Png"></span>
-                </div>
-                <div className="absolute -top-1 -right-1 w-4 h-4 bg-blue-500 rounded-full animate-pulse"></div>
-              </div>
-              <div>
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-emerald-700 to-blue-600 bg-clip-text text-transparent">
-                
-                </h1>
-                <p className="text-sm text-gray-600 font-medium">Transforming Nasarawa One Byte at a Time</p>
-              </div>
-            </div>
+<div className="flex items-center space-x-3">
+  <div className="relative">
+    <div className="logo">
+      <img
+        src="/digitalize-nasarawa-logo.png"
+        alt="Digitalize Nasarawa Logo"
+        width={48}
+        height={48}
+        className="rounded-md shadow"
+        style={{ objectFit: "contain" }}
+      />
+    </div>
+    <div className="absolute -top-1 -right-1 w-4 h-4 bg-blue-500 rounded-full animate-pulse"></div>
+  </div>
+  <div>
+    <h1 className="text-2xl font-bold bg-gradient-to-r from-emerald-700 to-blue-600 bg-clip-text text-transparent">
+      Digitalize Nasarawa
+    </h1>
+    <p className="text-sm text-gray-600 font-medium">
+      Transforming Nasarawa One Byte at a Time
+    </p>
+  </div>
+</div>
 
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center space-x-8">

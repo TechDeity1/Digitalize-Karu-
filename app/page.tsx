@@ -1,10 +1,77 @@
+"use client"
+
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { BookOpen, Users, Newspaper, Building, Menu, ArrowRight, CheckCircle, Globe, Shield, Zap } from "lucide-react"
+import {
+  BookOpen,
+  Users,
+  Newspaper,
+  Building,
+  Menu,
+  ArrowRight,
+  CheckCircle,
+  Globe,
+  Shield,
+  Zap,
+  X,
+  User,
+  Settings,
+  LogOut,
+  Bell,
+  BookmarkIcon,
+  CreditCard,
+} from "lucide-react"
 import { Badge } from "@/components/ui/badge"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Separator } from "@/components/ui/separator"
+import { useState } from "react"
 
 export default function HomePage() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+
+  // Mock user state - in real app this would come from auth context/state
+  const [isLoggedIn, setIsLoggedIn] = useState(true) // Set to true to show logged in state
+  const [user, setUser] = useState({
+    name: "John Doe",
+    email: "john.doe@example.com",
+    avatar: "/placeholder-user.jpg",
+    role: "Student", // Could be "Student" or "Agent"
+    notifications: 3,
+  })
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen)
+  }
+
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false)
+  }
+
+  const handleLogout = () => {
+    setIsLoggedIn(false)
+    setUser({
+      name: "",
+      email: "",
+      avatar: "",
+      role: "",
+      notifications: 0,
+    })
+    closeMobileMenu()
+  }
+
+  const handleLogin = () => {
+    setIsLoggedIn(true)
+    setUser({
+      name: "John Doe",
+      email: "john.doe@example.com",
+      avatar: "/placeholder-user.jpg",
+      role: "Student",
+      notifications: 3,
+    })
+    closeMobileMenu()
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-blue-50">
       {/* Modern Header */}
@@ -27,7 +94,7 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Navigation */}
+            {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center space-x-8">
               <Link
                 href="/"
@@ -73,21 +140,281 @@ export default function HomePage() {
               </Link>
             </nav>
 
-            {/* CTA Buttons */}
+            {/* Desktop CTA Buttons */}
             <div className="hidden md:flex items-center space-x-4">
-              <Button variant="ghost" className="text-gray-700 hover:text-emerald-600 hover:bg-emerald-50">
-                Sign In
-              </Button>
-              <Button className="bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white shadow-lg hover:shadow-xl transition-all duration-300">
-                Get Started
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
+              {isLoggedIn ? (
+                <div className="flex items-center space-x-3">
+                  <div className="relative">
+                    <Bell className="w-5 h-5 text-gray-600 hover:text-emerald-600 cursor-pointer transition-colors" />
+                    {user.notifications > 0 && (
+                      <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
+                        {user.notifications}
+                      </span>
+                    )}
+                  </div>
+                  <Avatar className="w-8 h-8 cursor-pointer">
+                    <AvatarImage src={user.avatar || "/placeholder.svg"} alt={user.name} />
+                    <AvatarFallback className="bg-emerald-100 text-emerald-700">
+                      {user.name
+                        .split(" ")
+                        .map((n) => n[0])
+                        .join("")}
+                    </AvatarFallback>
+                  </Avatar>
+                </div>
+              ) : (
+                <>
+                  <Button variant="ghost" className="text-gray-700 hover:text-emerald-600 hover:bg-emerald-50">
+                    Sign In
+                  </Button>
+                  <Button className="bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white shadow-lg hover:shadow-xl transition-all duration-300">
+                    Get Started
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                </>
+              )}
             </div>
 
             {/* Mobile Menu Button */}
-            <Button variant="ghost" size="icon" className="lg:hidden">
-              <Menu className="h-6 w-6" />
+            <Button variant="ghost" size="icon" className="lg:hidden relative z-50" onClick={toggleMobileMenu}>
+              {isMobileMenuOpen ? <X className="h-6 w-6 text-gray-700" /> : <Menu className="h-6 w-6 text-gray-700" />}
             </Button>
+          </div>
+        </div>
+
+        {/* Mobile Navigation Overlay */}
+        {isMobileMenuOpen && (
+          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 lg:hidden" onClick={closeMobileMenu} />
+        )}
+
+        {/* Mobile Navigation Menu */}
+        <div
+          className={`
+          fixed top-0 right-0 h-full w-80 bg-white shadow-2xl z-40 transform transition-transform duration-300 ease-in-out lg:hidden
+          ${isMobileMenuOpen ? "translate-x-0" : "translate-x-full"}
+        `}
+        >
+          <div className="flex flex-col h-full">
+            {/* Mobile Header */}
+            <div className="flex items-center justify-between p-6 border-b border-gray-200">
+              <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 bg-gradient-to-br from-emerald-600 to-emerald-700 rounded-lg flex items-center justify-center">
+                  <span className="text-white font-bold text-lg">DN</span>
+                </div>
+                <div>
+                  <h2 className="text-lg font-bold text-gray-900">DIGITALIZE NASARAWA</h2>
+                  <p className="text-xs text-gray-600">Student E-Facility</p>
+                </div>
+              </div>
+            </div>
+
+            {/* User Profile Section (when logged in) */}
+            {isLoggedIn && (
+              <div className="p-6 bg-gradient-to-r from-emerald-50 to-blue-50 border-b border-gray-200">
+                <div className="flex items-center space-x-4 mb-4">
+                  <Avatar className="w-12 h-12">
+                    <AvatarImage src={user.avatar || "/placeholder.svg"} alt={user.name} />
+                    <AvatarFallback className="bg-emerald-100 text-emerald-700 text-lg font-semibold">
+                      {user.name
+                        .split(" ")
+                        .map((n) => n[0])
+                        .join("")}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-gray-900">{user.name}</h3>
+                    <p className="text-sm text-gray-600">{user.email}</p>
+                    <Badge variant="secondary" className="mt-1 text-xs bg-emerald-100 text-emerald-700">
+                      {user.role}
+                    </Badge>
+                  </div>
+                  {user.notifications > 0 && (
+                    <div className="relative">
+                      <Bell className="w-5 h-5 text-gray-600" />
+                      <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
+                        {user.notifications}
+                      </span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Quick Actions for Logged In Users */}
+                <div className="grid grid-cols-2 gap-3">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="flex items-center justify-center space-x-2 border-emerald-200 hover:bg-emerald-50 bg-transparent"
+                    onClick={closeMobileMenu}
+                  >
+                    <User className="w-4 h-4" />
+                    <span>Profile</span>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="flex items-center justify-center space-x-2 border-blue-200 hover:bg-blue-50 bg-transparent"
+                    onClick={closeMobileMenu}
+                  >
+                    <BookmarkIcon className="w-4 h-4" />
+                    <span>Dashboard</span>
+                  </Button>
+                </div>
+              </div>
+            )}
+
+            {/* Mobile Navigation Links */}
+            <nav className="flex-1 px-6 py-8 overflow-y-auto">
+              <div className="space-y-6">
+                <Link
+                  href="/"
+                  className="flex items-center space-x-4 text-gray-700 hover:text-emerald-600 font-medium transition-colors duration-200 group"
+                  onClick={closeMobileMenu}
+                >
+                  <div className="w-2 h-2 bg-emerald-600 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+                  <span className="text-lg">Home</span>
+                </Link>
+                <Link
+                  href="/about"
+                  className="flex items-center space-x-4 text-gray-700 hover:text-emerald-600 font-medium transition-colors duration-200 group"
+                  onClick={closeMobileMenu}
+                >
+                  <div className="w-2 h-2 bg-emerald-600 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+                  <span className="text-lg">About</span>
+                </Link>
+                <Link
+                  href="/student"
+                  className="flex items-center space-x-4 text-gray-700 hover:text-emerald-600 font-medium transition-colors duration-200 group"
+                  onClick={closeMobileMenu}
+                >
+                  <div className="w-2 h-2 bg-emerald-600 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+                  <span className="text-lg">Student Portal</span>
+                </Link>
+                <Link
+                  href="/agent"
+                  className="flex items-center space-x-4 text-gray-700 hover:text-emerald-600 font-medium transition-colors duration-200 group"
+                  onClick={closeMobileMenu}
+                >
+                  <div className="w-2 h-2 bg-emerald-600 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+                  <span className="text-lg">Agent Portal</span>
+                </Link>
+                <Link
+                  href="/stakeholders"
+                  className="flex items-center space-x-4 text-gray-700 hover:text-emerald-600 font-medium transition-colors duration-200 group"
+                  onClick={closeMobileMenu}
+                >
+                  <div className="w-2 h-2 bg-emerald-600 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+                  <span className="text-lg">Stakeholders</span>
+                </Link>
+                <Link
+                  href="/news"
+                  className="flex items-center space-x-4 text-gray-700 hover:text-emerald-600 font-medium transition-colors duration-200 group"
+                  onClick={closeMobileMenu}
+                >
+                  <div className="w-2 h-2 bg-emerald-600 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+                  <span className="text-lg">News Portal</span>
+                </Link>
+              </div>
+
+              {/* User Account Actions (when logged in) */}
+              {isLoggedIn && (
+                <>
+                  <Separator className="my-6" />
+                  <div className="space-y-4">
+                    <h4 className="text-sm font-semibold text-gray-500 uppercase tracking-wider">Account</h4>
+                    <Link
+                      href="/profile"
+                      className="flex items-center space-x-4 text-gray-700 hover:text-emerald-600 font-medium transition-colors duration-200 group"
+                      onClick={closeMobileMenu}
+                    >
+                      <User className="w-5 h-5" />
+                      <span>My Profile</span>
+                    </Link>
+                    <Link
+                      href="/settings"
+                      className="flex items-center space-x-4 text-gray-700 hover:text-emerald-600 font-medium transition-colors duration-200 group"
+                      onClick={closeMobileMenu}
+                    >
+                      <Settings className="w-5 h-5" />
+                      <span>Settings</span>
+                    </Link>
+                    <Link
+                      href="/billing"
+                      className="flex items-center space-x-4 text-gray-700 hover:text-emerald-600 font-medium transition-colors duration-200 group"
+                      onClick={closeMobileMenu}
+                    >
+                      <CreditCard className="w-5 h-5" />
+                      <span>Billing</span>
+                    </Link>
+                    <Link
+                      href="/notifications"
+                      className="flex items-center space-x-4 text-gray-700 hover:text-emerald-600 font-medium transition-colors duration-200 group"
+                      onClick={closeMobileMenu}
+                    >
+                      <div className="relative">
+                        <Bell className="w-5 h-5" />
+                        {user.notifications > 0 && (
+                          <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"></span>
+                        )}
+                      </div>
+                      <span>Notifications</span>
+                      {user.notifications > 0 && (
+                        <Badge variant="secondary" className="ml-auto bg-red-100 text-red-700 text-xs">
+                          {user.notifications}
+                        </Badge>
+                      )}
+                    </Link>
+                  </div>
+                </>
+              )}
+
+              {/* Mobile Divider */}
+              <div className="my-8 border-t border-gray-200"></div>
+
+              {/* Mobile CTA Buttons */}
+              <div className="space-y-4">
+                {isLoggedIn ? (
+                  <Button
+                    variant="outline"
+                    className="w-full justify-center text-red-600 border-red-200 hover:bg-red-50 hover:border-red-300 text-lg py-6 bg-transparent"
+                    onClick={handleLogout}
+                  >
+                    <LogOut className="mr-2 h-5 w-5" />
+                    Sign Out
+                  </Button>
+                ) : (
+                  <>
+                    <Button
+                      variant="ghost"
+                      className="w-full justify-start text-gray-700 hover:text-emerald-600 hover:bg-emerald-50 text-lg py-6"
+                      onClick={handleLogin}
+                    >
+                      Sign In
+                    </Button>
+                    <Button
+                      className="w-full bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white shadow-lg text-lg py-6"
+                      onClick={closeMobileMenu}
+                    >
+                      Get Started
+                      <ArrowRight className="ml-2 h-5 w-5" />
+                    </Button>
+                  </>
+                )}
+              </div>
+            </nav>
+
+            {/* Mobile Footer */}
+            <div className="p-6 border-t border-gray-200 bg-gray-50">
+              <div className="text-center">
+                <p className="text-sm text-gray-600 mb-2">Need help?</p>
+                <Link
+                  href="/contact"
+                  className="text-emerald-600 hover:text-emerald-700 font-medium text-sm"
+                  onClick={closeMobileMenu}
+                >
+                  Contact Support
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </header>

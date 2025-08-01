@@ -99,7 +99,7 @@ export default function AgentPortal() {
               </div>
               <div>
                 <h1 className="text-xl font-bold bg-gradient-to-r from-blue-700 to-purple-600 bg-clip-text text-transparent">
-                  DIGITALIZE NASARAWA
+                 
                 </h1>
                 <p className="text-xs text-gray-600">Agent Portal</p>
               </div>

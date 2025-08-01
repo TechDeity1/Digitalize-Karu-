@@ -73,18 +73,19 @@ export default function HomePage() {
             {/* Logo */}
             <div className="flex items-center space-x-3">
               <div className="relative">
-                <Image
-                  src="/DIGITALIZE NASARAWA LOGO2.png"
-                  alt="DIGITALIZE NASARAWA Logo"
-                  width={48}
-                  height={48}
-                  className="rounded-xl shadow-lg"
-                />
+                <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-lg overflow-hidden border border-gray-100">
+                  <Image
+                    src="/digitalize-nasarawa-logo.png"
+                    alt="DIGITALIZE NASARAWA Logo"
+                    width={40}
+                    height={40}
+                    className="object-contain"
+                  />
+                </div>
                 <div className="absolute -top-1 -right-1 w-4 h-4 bg-blue-500 rounded-full animate-pulse"></div>
               </div>
               <div>
                 <h1 className="text-2xl font-bold bg-gradient-to-r from-emerald-700 to-blue-600 bg-clip-text text-transparent">
-                  
                 </h1>
                 <p className="text-sm text-gray-600 font-medium">Transforming Nasarawa One Byte at A Time</p>
               </div>
@@ -201,13 +202,15 @@ export default function HomePage() {
             {/* Mobile Header */}
             <div className="flex items-center justify-between p-6 border-b border-gray-200">
               <div className="flex items-center space-x-3">
-                <Image
-                  src="/DIGITALIZE NASARAWA LOGO2.png"
-                  alt="DIGITALIZE NASARAWA Logo"
-                  width={40}
-                  height={40}
-                  className="rounded-lg"
-                />
+                <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center border border-gray-100 shadow-sm overflow-hidden">
+                  <Image
+                    src="/digitalize-nasarawa-logo.png"
+                    alt="DIGITALIZE NASARAWA Logo"
+                    width={32}
+                    height={32}
+                    className="object-contain"
+                  />
+                </div>
                 <div>
                   <h2 className="text-lg font-bold text-gray-900">DIGITALIZE NASARAWA</h2>
                   <p className="text-xs text-gray-600">Student E-Facility</p>
@@ -694,13 +697,15 @@ export default function HomePage() {
             {/* Brand */}
             <div className="md:col-span-2">
               <div className="flex items-center space-x-3 mb-6">
-                <Image
-                  src="/DIGITALIZE NASARAWA LOGO2.png"
-                  alt="DIGITALIZE NASARAWA Logo"
-                  width={48}
-                  height={48}
-                  className="rounded-xl"
-                />
+                <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center overflow-hidden">
+                  <Image
+                    src="/digitalize-nasarawa-logo.png"
+                    alt="DIGITALIZE NASARAWA Logo"
+                    width={40}
+                    height={40}
+                    className="object-contain"
+                  />
+                </div>
                 <div>
                   <span className="text-2xl font-bold bg-gradient-to-r from-emerald-400 to-blue-400 bg-clip-text text-transparent">
                     DIGITALIZE NASARAWA

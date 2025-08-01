@@ -17,10 +17,9 @@ import {
   X,
   User,
   Settings,
+  BookmarkIcon,
   LogOut,
   Bell,
-  BookmarkIcon,
-  CreditCard,
 } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -29,14 +28,13 @@ import { useState } from "react"
 
 export default function HomePage() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-
-  // Mock user state - in real app this would come from auth context/state
-  const [isLoggedIn, setIsLoggedIn] = useState(true) // Set to true to show logged in state
-  const [user, setUser] = useState({
-    name: "John Doe",
-    email: "john.doe@example.com",
+  // Mock user state - in real app this would come from auth context/state management
+  const [isLoggedIn, setIsLoggedIn] = useState(true) // Change to false to see logged out state
+  const [user] = useState({
+    name: "John Adamu",
+    email: "john.adamu@email.com",
+    role: "Student",
     avatar: "/placeholder-user.jpg",
-    role: "Student", // Could be "Student" or "Agent"
     notifications: 3,
   })
 
@@ -50,26 +48,8 @@ export default function HomePage() {
 
   const handleLogout = () => {
     setIsLoggedIn(false)
-    setUser({
-      name: "",
-      email: "",
-      avatar: "",
-      role: "",
-      notifications: 0,
-    })
     closeMobileMenu()
-  }
-
-  const handleLogin = () => {
-    setIsLoggedIn(true)
-    setUser({
-      name: "John Doe",
-      email: "john.doe@example.com",
-      avatar: "/placeholder-user.jpg",
-      role: "Student",
-      notifications: 3,
-    })
-    closeMobileMenu()
+    // In real app, handle logout logic here
   }
 
   return (
@@ -144,17 +124,17 @@ export default function HomePage() {
             <div className="hidden md:flex items-center space-x-4">
               {isLoggedIn ? (
                 <div className="flex items-center space-x-3">
-                  <div className="relative">
-                    <Bell className="w-5 h-5 text-gray-600 hover:text-emerald-600 cursor-pointer transition-colors" />
+                  <Button variant="ghost" size="icon" className="relative">
+                    <Bell className="h-5 w-5 text-gray-600" />
                     {user.notifications > 0 && (
-                      <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
-                        {user.notifications}
-                      </span>
+                      <div className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center">
+                        <span className="text-xs text-white font-bold">{user.notifications}</span>
+                      </div>
                     )}
-                  </div>
-                  <Avatar className="w-8 h-8 cursor-pointer">
+                  </Button>
+                  <Avatar className="w-8 h-8">
                     <AvatarImage src={user.avatar || "/placeholder.svg"} alt={user.name} />
-                    <AvatarFallback className="bg-emerald-100 text-emerald-700">
+                    <AvatarFallback className="bg-emerald-600 text-white text-sm">
                       {user.name
                         .split(" ")
                         .map((n) => n[0])
@@ -208,56 +188,34 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* User Profile Section (when logged in) */}
+            {/* User Profile Section (if logged in) */}
             {isLoggedIn && (
               <div className="p-6 bg-gradient-to-r from-emerald-50 to-blue-50 border-b border-gray-200">
-                <div className="flex items-center space-x-4 mb-4">
-                  <Avatar className="w-12 h-12">
-                    <AvatarImage src={user.avatar || "/placeholder.svg"} alt={user.name} />
-                    <AvatarFallback className="bg-emerald-100 text-emerald-700 text-lg font-semibold">
-                      {user.name
-                        .split(" ")
-                        .map((n) => n[0])
-                        .join("")}
-                    </AvatarFallback>
-                  </Avatar>
+                <div className="flex items-center space-x-4">
+                  <div className="relative">
+                    <Avatar className="w-12 h-12 border-2 border-white shadow-md">
+                      <AvatarImage src={user.avatar || "/placeholder.svg"} alt={user.name} />
+                      <AvatarFallback className="bg-emerald-600 text-white">
+                        {user.name
+                          .split(" ")
+                          .map((n) => n[0])
+                          .join("")}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 border-2 border-white rounded-full"></div>
+                  </div>
                   <div className="flex-1">
                     <h3 className="font-semibold text-gray-900">{user.name}</h3>
                     <p className="text-sm text-gray-600">{user.email}</p>
-                    <Badge variant="secondary" className="mt-1 text-xs bg-emerald-100 text-emerald-700">
+                    <Badge variant="secondary" className="mt-1 text-xs bg-emerald-100 text-emerald-800">
                       {user.role}
                     </Badge>
                   </div>
                   {user.notifications > 0 && (
-                    <div className="relative">
-                      <Bell className="w-5 h-5 text-gray-600" />
-                      <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
-                        {user.notifications}
-                      </span>
+                    <div className="w-6 h-6 bg-red-500 rounded-full flex items-center justify-center">
+                      <span className="text-xs text-white font-bold">{user.notifications}</span>
                     </div>
                   )}
-                </div>
-
-                {/* Quick Actions for Logged In Users */}
-                <div className="grid grid-cols-2 gap-3">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="flex items-center justify-center space-x-2 border-emerald-200 hover:bg-emerald-50 bg-transparent"
-                    onClick={closeMobileMenu}
-                  >
-                    <User className="w-4 h-4" />
-                    <span>Profile</span>
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="flex items-center justify-center space-x-2 border-blue-200 hover:bg-blue-50 bg-transparent"
-                    onClick={closeMobileMenu}
-                  >
-                    <BookmarkIcon className="w-4 h-4" />
-                    <span>Dashboard</span>
-                  </Button>
                 </div>
               </div>
             )}
@@ -315,91 +273,84 @@ export default function HomePage() {
                 </Link>
               </div>
 
-              {/* User Account Actions (when logged in) */}
+              {/* User Account Options (if logged in) */}
               {isLoggedIn && (
                 <>
                   <Separator className="my-6" />
                   <div className="space-y-4">
-                    <h4 className="text-sm font-semibold text-gray-500 uppercase tracking-wider">Account</h4>
-                    <Link
-                      href="/profile"
-                      className="flex items-center space-x-4 text-gray-700 hover:text-emerald-600 font-medium transition-colors duration-200 group"
-                      onClick={closeMobileMenu}
-                    >
-                      <User className="w-5 h-5" />
-                      <span>My Profile</span>
-                    </Link>
-                    <Link
-                      href="/settings"
-                      className="flex items-center space-x-4 text-gray-700 hover:text-emerald-600 font-medium transition-colors duration-200 group"
-                      onClick={closeMobileMenu}
-                    >
-                      <Settings className="w-5 h-5" />
-                      <span>Settings</span>
-                    </Link>
-                    <Link
-                      href="/billing"
-                      className="flex items-center space-x-4 text-gray-700 hover:text-emerald-600 font-medium transition-colors duration-200 group"
-                      onClick={closeMobileMenu}
-                    >
-                      <CreditCard className="w-5 h-5" />
-                      <span>Billing</span>
-                    </Link>
-                    <Link
-                      href="/notifications"
-                      className="flex items-center space-x-4 text-gray-700 hover:text-emerald-600 font-medium transition-colors duration-200 group"
-                      onClick={closeMobileMenu}
-                    >
-                      <div className="relative">
-                        <Bell className="w-5 h-5" />
+                    <h4 className="text-sm font-semibold text-gray-900 uppercase tracking-wide">Account</h4>
+                    <div className="space-y-3">
+                      <Link
+                        href="/dashboard"
+                        className="flex items-center space-x-3 text-gray-700 hover:text-emerald-600 transition-colors duration-200 group"
+                        onClick={closeMobileMenu}
+                      >
+                        <User className="w-5 h-5 text-gray-500 group-hover:text-emerald-600" />
+                        <span>Dashboard</span>
+                      </Link>
+                      <Link
+                        href="/profile"
+                        className="flex items-center space-x-3 text-gray-700 hover:text-emerald-600 transition-colors duration-200 group"
+                        onClick={closeMobileMenu}
+                      >
+                        <Settings className="w-5 h-5 text-gray-500 group-hover:text-emerald-600" />
+                        <span>Profile Settings</span>
+                      </Link>
+                      <Link
+                        href="/bookmarks"
+                        className="flex items-center space-x-3 text-gray-700 hover:text-emerald-600 transition-colors duration-200 group"
+                        onClick={closeMobileMenu}
+                      >
+                        <BookmarkIcon className="w-5 h-5 text-gray-500 group-hover:text-emerald-600" />
+                        <span>Bookmarks</span>
+                      </Link>
+                      <Link
+                        href="/notifications"
+                        className="flex items-center justify-between text-gray-700 hover:text-emerald-600 transition-colors duration-200 group"
+                        onClick={closeMobileMenu}
+                      >
+                        <div className="flex items-center space-x-3">
+                          <Bell className="w-5 h-5 text-gray-500 group-hover:text-emerald-600" />
+                          <span>Notifications</span>
+                        </div>
                         {user.notifications > 0 && (
-                          <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"></span>
+                          <Badge className="bg-red-500 text-white text-xs px-2 py-1">{user.notifications}</Badge>
                         )}
-                      </div>
-                      <span>Notifications</span>
-                      {user.notifications > 0 && (
-                        <Badge variant="secondary" className="ml-auto bg-red-100 text-red-700 text-xs">
-                          {user.notifications}
-                        </Badge>
-                      )}
-                    </Link>
+                      </Link>
+                      <button
+                        onClick={handleLogout}
+                        className="flex items-center space-x-3 text-red-600 hover:text-red-700 transition-colors duration-200 group w-full text-left"
+                      >
+                        <LogOut className="w-5 h-5" />
+                        <span>Sign Out</span>
+                      </button>
+                    </div>
                   </div>
                 </>
               )}
 
               {/* Mobile Divider */}
-              <div className="my-8 border-t border-gray-200"></div>
+              {!isLoggedIn && <div className="my-8 border-t border-gray-200"></div>}
 
-              {/* Mobile CTA Buttons */}
-              <div className="space-y-4">
-                {isLoggedIn ? (
+              {/* Mobile CTA Buttons (if not logged in) */}
+              {!isLoggedIn && (
+                <div className="space-y-4">
                   <Button
-                    variant="outline"
-                    className="w-full justify-center text-red-600 border-red-200 hover:bg-red-50 hover:border-red-300 text-lg py-6 bg-transparent"
-                    onClick={handleLogout}
+                    variant="ghost"
+                    className="w-full justify-start text-gray-700 hover:text-emerald-600 hover:bg-emerald-50 text-lg py-6"
+                    onClick={closeMobileMenu}
                   >
-                    <LogOut className="mr-2 h-5 w-5" />
-                    Sign Out
+                    Sign In
                   </Button>
-                ) : (
-                  <>
-                    <Button
-                      variant="ghost"
-                      className="w-full justify-start text-gray-700 hover:text-emerald-600 hover:bg-emerald-50 text-lg py-6"
-                      onClick={handleLogin}
-                    >
-                      Sign In
-                    </Button>
-                    <Button
-                      className="w-full bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white shadow-lg text-lg py-6"
-                      onClick={closeMobileMenu}
-                    >
-                      Get Started
-                      <ArrowRight className="ml-2 h-5 w-5" />
-                    </Button>
-                  </>
-                )}
-              </div>
+                  <Button
+                    className="w-full bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white shadow-lg text-lg py-6"
+                    onClick={closeMobileMenu}
+                  >
+                    Get Started
+                    <ArrowRight className="ml-2 h-5 w-5" />
+                  </Button>
+                </div>
+              )}
             </nav>
 
             {/* Mobile Footer */}

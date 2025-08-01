@@ -1,153 +1,254 @@
 "use client"
 
+import type React from "react"
+
 import { useState } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Eye, EyeOff, ArrowLeft } from "lucide-react"
+import { ArrowLeft, Mail, Lock, Eye, EyeOff, Users, CheckCircle, DollarSign } from "lucide-react"
 
 export default function AgentPortal() {
   const [showPassword, setShowPassword] = useState(false)
   const [isLogin, setIsLogin] = useState(true)
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    confirmPassword: "",
+    firstName: "",
+    lastName: "",
+    organization: "",
+  })
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    })
+  }
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    // Handle form submission
+    console.log("Form submitted:", formData)
+  }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <Link href="/" className="inline-flex items-center text-blue-600 hover:text-blue-700 mb-4">
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Home
-          </Link>
-          <div className="flex items-center justify-center space-x-2 mb-4">
-            <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-xl">DN</span>
-            </div>
-            <div className="text-left">
-              <h1 className="text-xl font-bold text-blue-800">DIGITALIZE NASARAWA</h1>
-              <p className="text-sm text-gray-600">Agent Portal</p>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+      {/* Header */}
+      <header className="bg-white/80 backdrop-blur-lg border-b border-gray-200/50 shadow-sm">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            <Link href="/" className="flex items-center space-x-2 text-blue-600 hover:text-blue-700">
+              <ArrowLeft className="w-5 h-5" />
+              <span className="font-medium">Back to Home</span>
+            </Link>
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold text-lg">DN</span>
+              </div>
+              <div>
+                <h1 className="text-xl font-bold bg-gradient-to-r from-blue-700 to-purple-600 bg-clip-text text-transparent">
+                  DIGITALIZE NASARAWA
+                </h1>
+                <p className="text-xs text-gray-600">Agent Portal</p>
+              </div>
             </div>
           </div>
         </div>
+      </header>
 
-        <Card className="shadow-lg">
-          <CardHeader className="text-center">
-            <CardTitle className="text-2xl font-bold">
-              {isLogin ? "Login to your account" : "Create Agent Account"}
-            </CardTitle>
-            <CardDescription>
-              {isLogin ? "Agent can login after registration" : "Intended Agent can create a free account"}
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {isLogin ? (
-              // Login Form
-              <>
+      {/* Main Content */}
+      <div className="container mx-auto px-4 py-12">
+        <div className="max-w-md mx-auto">
+          {/* Welcome Card */}
+          <Card className="shadow-2xl border-0 bg-white/80 backdrop-blur-sm">
+            <CardHeader className="text-center pb-6">
+              <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <Users className="w-8 h-8 text-white" />
+              </div>
+              <CardTitle className="text-2xl font-bold text-gray-900">
+                {isLogin ? "Agent Login" : "Become an Agent"}
+              </CardTitle>
+              <CardDescription className="text-gray-600">
+                {isLogin
+                  ? "Access your agent dashboard and manage your student registrations"
+                  : "Join our network of certified agents and start earning commissions"}
+              </CardDescription>
+            </CardHeader>
+
+            <CardContent className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-4">
+                {!isLogin && (
+                  <>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="firstName">First Name</Label>
+                        <Input
+                          id="firstName"
+                          name="firstName"
+                          type="text"
+                          placeholder="John"
+                          value={formData.firstName}
+                          onChange={handleInputChange}
+                          required
+                          className="border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="lastName">Last Name</Label>
+                        <Input
+                          id="lastName"
+                          name="lastName"
+                          type="text"
+                          placeholder="Doe"
+                          value={formData.lastName}
+                          onChange={handleInputChange}
+                          required
+                          className="border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="organization">Organization (Optional)</Label>
+                      <Input
+                        id="organization"
+                        name="organization"
+                        type="text"
+                        placeholder="Your organization name"
+                        value={formData.organization}
+                        onChange={handleInputChange}
+                        className="border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                      />
+                    </div>
+                  </>
+                )}
+
                 <div className="space-y-2">
-                  <Label htmlFor="email">e-Mail Address</Label>
-                  <Input id="email" type="email" placeholder="Enter your email address" required />
+                  <Label htmlFor="email">Email Address</Label>
+                  <div className="relative">
+                    <Mail className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+                    <Input
+                      id="email"
+                      name="email"
+                      type="email"
+                      placeholder="your.email@example.com"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      required
+                      className="pl-10 border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                    />
+                  </div>
                 </div>
+
                 <div className="space-y-2">
                   <Label htmlFor="password">Password</Label>
                   <div className="relative">
+                    <Lock className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
                     <Input
                       id="password"
+                      name="password"
                       type={showPassword ? "text" : "password"}
                       placeholder="Enter your password"
+                      value={formData.password}
+                      onChange={handleInputChange}
                       required
+                      className="pl-10 pr-10 border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                     />
-                    <Button
+                    <button
                       type="button"
-                      variant="ghost"
-                      size="icon"
-                      className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8"
                       onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
                     >
-                      {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                    </Button>
-                  </div>
-                </div>
-                <Button className="w-full bg-blue-600 hover:bg-blue-700">Login</Button>
-                <div className="text-center space-y-2">
-                  <Link href="/agent/forgot-password" className="text-sm text-blue-600 hover:underline">
-                    Forgot your Password? Click here to reset it.
-                  </Link>
-                  <p className="text-sm text-gray-600">
-                    Want to become an Agent?{" "}
-                    <button onClick={() => setIsLogin(false)} className="text-blue-600 hover:underline font-medium">
-                      Create an Account
+                      {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                     </button>
-                  </p>
-                </div>
-              </>
-            ) : (
-              // Registration Form
-              <>
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
-                  <h4 className="font-semibold text-blue-800 mb-2">Important Notice!</h4>
-                  <p className="text-sm text-blue-700">
-                    You are advised to create an account with a valid email address because all vital information will
-                    be sent to the email you supplied. Yahoo mails are not encouraged due to delay in delivery.
-                  </p>
-                </div>
-
-                <div className="space-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="reg-email">e-Mail Address</Label>
-                    <Input id="reg-email" type="email" placeholder="Enter your email address" required />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="confirm-email">Confirm e-Mail Address</Label>
-                    <Input id="confirm-email" type="email" placeholder="Confirm your email address" required />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="mobile">Mobile No.</Label>
-                    <Input id="mobile" type="tel" placeholder="Enter your mobile number" required />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="confirm-mobile">Confirm Mobile No.</Label>
-                    <Input id="confirm-mobile" type="tel" placeholder="Confirm your mobile number" required />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="security-question">Select Security Question</Label>
-                    <select
-                      id="security-question"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      required
-                    >
-                      <option value="">Please Select</option>
-                      <option value="pet">What was the name of your first pet?</option>
-                      <option value="school">What was the name of your first school?</option>
-                      <option value="mother">What is your mother's maiden name?</option>
-                      <option value="city">In what city were you born?</option>
-                    </select>
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="security-answer">Secret Question Answer</Label>
-                    <Input id="security-answer" type="text" placeholder="Enter your answer" required />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="confirm-answer">Confirm Secret Question Answer</Label>
-                    <Input id="confirm-answer" type="text" placeholder="Confirm your answer" required />
                   </div>
                 </div>
 
-                <Button className="w-full bg-blue-600 hover:bg-blue-700">Sign Up (e-Mail Verification)</Button>
+                {!isLogin && (
+                  <div className="space-y-2">
+                    <Label htmlFor="confirmPassword">Confirm Password</Label>
+                    <div className="relative">
+                      <Lock className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+                      <Input
+                        id="confirmPassword"
+                        name="confirmPassword"
+                        type="password"
+                        placeholder="Confirm your password"
+                        value={formData.confirmPassword}
+                        onChange={handleInputChange}
+                        required
+                        className="pl-10 border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                      />
+                    </div>
+                  </div>
+                )}
 
+                <Button
+                  type="submit"
+                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-3 text-lg font-medium shadow-lg hover:shadow-xl transition-all duration-300"
+                >
+                  {isLogin ? "Sign In" : "Apply as Agent"}
+                </Button>
+              </form>
+
+              {isLogin && (
                 <div className="text-center">
-                  <p className="text-sm text-gray-600">
-                    Already have an account?{" "}
-                    <button onClick={() => setIsLogin(true)} className="text-blue-600 hover:underline font-medium">
-                      Login here
-                    </button>
-                  </p>
+                  <Link href="/forgot-password" className="text-sm text-blue-600 hover:text-blue-700 font-medium">
+                    Forgot your password? Click here to reset it.
+                  </Link>
                 </div>
-              </>
-            )}
-          </CardContent>
-        </Card>
+              )}
+
+              <div className="text-center">
+                <p className="text-sm text-gray-600">
+                  {isLogin ? "Want to become an Agent?" : "Already have an account?"}
+                </p>
+                <button onClick={() => setIsLogin(!isLogin)} className="text-blue-600 hover:text-blue-700 font-medium">
+                  {isLogin ? "Apply Now" : "Sign In"}
+                </button>
+              </div>
+
+              {!isLogin && (
+                <div className="bg-orange-50 border border-orange-200 rounded-lg p-4">
+                  <div className="flex items-start space-x-3">
+                    <DollarSign className="w-5 h-5 text-orange-600 mt-0.5 flex-shrink-0" />
+                    <div>
+                      <h4 className="font-semibold text-orange-900 mb-1">Agent Registration Fee</h4>
+                      <p className="text-sm text-orange-800">
+                        Agent registration fee is ₦5,000 only. If application is accepted, the Admin will generate your
+                        Agent ID. Agents can login after registration without admin approval.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
+          {/* Agent Benefits */}
+          <div className="mt-8 grid grid-cols-1 gap-4">
+            <div className="flex items-center space-x-3 text-sm text-gray-600">
+              <CheckCircle className="w-5 h-5 text-blue-600" />
+              <span>Earn commissions for each student registration</span>
+            </div>
+            <div className="flex items-center space-x-3 text-sm text-gray-600">
+              <CheckCircle className="w-5 h-5 text-blue-600" />
+              <span>Access to agent dashboard and tools</span>
+            </div>
+            <div className="flex items-center space-x-3 text-sm text-gray-600">
+              <CheckCircle className="w-5 h-5 text-blue-600" />
+              <span>Performance tracking and analytics</span>
+            </div>
+            <div className="flex items-center space-x-3 text-sm text-gray-600">
+              <CheckCircle className="w-5 h-5 text-blue-600" />
+              <span>Training and support resources</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   )

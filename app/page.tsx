@@ -1,26 +1,94 @@
-<div className="flex items-center space-x-3">
-  <div className="relative">
-    <div className="logo">
-      <img
-        src="/digitalize-nasarawa-logo.png"
-        alt="Digitalize Nasarawa Logo"
-        width={48}
-        height={48}
-        className="rounded-md shadow"
-        style={{ objectFit: "contain" }}
-      />
-    </div>
-    <div className="absolute -top-1 -right-1 w-4 h-4 bg-blue-500 rounded-full animate-pulse"></div>
-  </div>
-  <div>
-    <h1 className="text-2xl font-bold bg-gradient-to-r from-emerald-700 to-blue-600 bg-clip-text text-transparent">
-      Digitalize Nasarawa
-    </h1>
-    <p className="text-sm text-gray-600 font-medium">
-      Transforming Nasarawa One Byte at a Time
-    </p>
-  </div>
-</div>
+"use client"
+
+import { useState } from "react"
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Separator } from "@/components/ui/separator"
+import {
+  Menu,
+  X,
+  Users,
+  BookOpen,
+  Bell,
+  User,
+  Settings,
+  Bookmark,
+  LogOut,
+  Shield,
+  Zap,
+  Globe,
+  Phone,
+  Mail,
+  MapPin,
+  Facebook,
+  Twitter,
+  Instagram,
+  Linkedin,
+  ArrowRight,
+  CheckCircle,
+  Newspaper,
+  Building,
+} from "lucide-react"
+import Image from "next/image"
+
+export default function HomePage() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState(true) // Toggle this to test logged in/out states
+
+  // Mock user data
+  const user = {
+    name: "John Adamu",
+    email: "john.adamu@email.com",
+    role: "Student",
+    avatar: "/placeholder-user.jpg",
+    notifications: 3,
+  }
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen)
+  }
+
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false)
+  }
+
+  const handleLogout = () => {
+    setIsLoggedIn(false)
+    setIsMobileMenuOpen(false)
+  }
+
+  const handleLogin = () => {
+    setIsLoggedIn(true)
+  }
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-blue-50">
+      {/* Modern Header */}
+      <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-lg border-b border-gray-200/50 shadow-sm">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            {/* Logo */}
+            <div className="flex items-center space-x-3">
+              <div className="relative">
+                <Image
+                  src="/DIGITALIZE NASARAWA LOGO2.png"
+                  alt="DIGITALIZE NASARAWA Logo"
+                  width={48}
+                  height={48}
+                  className="rounded-xl shadow-lg"
+                />
+                <div className="absolute -top-1 -right-1 w-4 h-4 bg-blue-500 rounded-full animate-pulse"></div>
+              </div>
+              <div>
+                <h1 className="text-2xl font-bold bg-gradient-to-r from-emerald-700 to-blue-600 bg-clip-text text-transparent">
+                  
+                </h1>
+                <p className="text-sm text-gray-600 font-medium">Transforming Nasarawa One Byte at A Time</p>
+              </div>
+            </div>
 
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center space-x-8">
@@ -92,10 +160,17 @@
                 </div>
               ) : (
                 <>
-                  <Button variant="ghost" className="text-gray-700 hover:text-emerald-600 hover:bg-emerald-50">
+                  <Button
+                    variant="ghost"
+                    className="text-gray-700 hover:text-emerald-600 hover:bg-emerald-50"
+                    onClick={handleLogin}
+                  >
                     Sign In
                   </Button>
-                  <Button className="bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white shadow-lg hover:shadow-xl transition-all duration-300">
+                  <Button
+                    className="bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white shadow-lg hover:shadow-xl transition-all duration-300"
+                    onClick={handleLogin}
+                  >
                     Get Started
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
@@ -126,9 +201,13 @@
             {/* Mobile Header */}
             <div className="flex items-center justify-between p-6 border-b border-gray-200">
               <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-emerald-600 to-emerald-700 rounded-lg flex items-center justify-center">
-                  <span className="text-white font-bold text-lg">DN</span>
-                </div>
+                <Image
+                  src="/DIGITALIZE NASARAWA LOGO2.png"
+                  alt="DIGITALIZE NASARAWA Logo"
+                  width={40}
+                  height={40}
+                  className="rounded-lg"
+                />
                 <div>
                   <h2 className="text-lg font-bold text-gray-900">DIGITALIZE NASARAWA</h2>
                   <p className="text-xs text-gray-600">Student E-Facility</p>
@@ -249,7 +328,7 @@
                         className="flex items-center space-x-3 text-gray-700 hover:text-emerald-600 transition-colors duration-200 group"
                         onClick={closeMobileMenu}
                       >
-                        <BookmarkIcon className="w-5 h-5 text-gray-500 group-hover:text-emerald-600" />
+                        <Bookmark className="w-5 h-5 text-gray-500 group-hover:text-emerald-600" />
                         <span>Bookmarks</span>
                       </Link>
                       <Link
@@ -286,13 +365,19 @@
                   <Button
                     variant="ghost"
                     className="w-full justify-start text-gray-700 hover:text-emerald-600 hover:bg-emerald-50 text-lg py-6"
-                    onClick={closeMobileMenu}
+                    onClick={() => {
+                      handleLogin()
+                      closeMobileMenu()
+                    }}
                   >
                     Sign In
                   </Button>
                   <Button
                     className="w-full bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white shadow-lg text-lg py-6"
-                    onClick={closeMobileMenu}
+                    onClick={() => {
+                      handleLogin()
+                      closeMobileMenu()
+                    }}
                   >
                     Get Started
                     <ArrowRight className="ml-2 h-5 w-5" />
@@ -609,9 +694,13 @@
             {/* Brand */}
             <div className="md:col-span-2">
               <div className="flex items-center space-x-3 mb-6">
-                <div className="w-12 h-12 bg-gradient-to-br from-emerald-600 to-emerald-700 rounded-xl flex items-center justify-center">
-                  <span className="text-white font-bold text-xl">DN</span>
-                </div>
+                <Image
+                  src="/DIGITALIZE NASARAWA LOGO2.png"
+                  alt="DIGITALIZE NASARAWA Logo"
+                  width={48}
+                  height={48}
+                  className="rounded-xl"
+                />
                 <div>
                   <span className="text-2xl font-bold bg-gradient-to-r from-emerald-400 to-blue-400 bg-clip-text text-transparent">
                     DIGITALIZE NASARAWA
@@ -625,13 +714,16 @@
               </p>
               <div className="flex space-x-4">
                 <div className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-emerald-600 transition-colors cursor-pointer">
-                  <span className="text-sm font-bold">f</span>
+                  <Facebook className="w-5 h-5" />
                 </div>
                 <div className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-emerald-600 transition-colors cursor-pointer">
-                  <span className="text-sm font-bold">t</span>
+                  <Twitter className="w-5 h-5" />
                 </div>
                 <div className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-emerald-600 transition-colors cursor-pointer">
-                  <span className="text-sm font-bold">in</span>
+                  <Instagram className="w-5 h-5" />
+                </div>
+                <div className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-emerald-600 transition-colors cursor-pointer">
+                  <Linkedin className="w-5 h-5" />
                 </div>
               </div>
             </div>
@@ -728,7 +820,7 @@
               <div className="space-y-4">
                 <div className="flex items-start space-x-3">
                   <div className="w-5 h-5 bg-emerald-600 rounded-full flex items-center justify-center mt-0.5">
-                    <div className="w-2 h-2 bg-white rounded-full"></div>
+                    <MapPin className="w-3 h-3 text-white" />
                   </div>
                   <div>
                     <p className="text-gray-400 text-sm">Location</p>
@@ -737,7 +829,7 @@
                 </div>
                 <div className="flex items-start space-x-3">
                   <div className="w-5 h-5 bg-emerald-600 rounded-full flex items-center justify-center mt-0.5">
-                    <div className="w-2 h-2 bg-white rounded-full"></div>
+                    <Mail className="w-3 h-3 text-white" />
                   </div>
                   <div>
                     <p className="text-gray-400 text-sm">Email</p>
@@ -746,7 +838,7 @@
                 </div>
                 <div className="flex items-start space-x-3">
                   <div className="w-5 h-5 bg-emerald-600 rounded-full flex items-center justify-center mt-0.5">
-                    <div className="w-2 h-2 bg-white rounded-full"></div>
+                    <Phone className="w-3 h-3 text-white" />
                   </div>
                   <div>
                     <p className="text-gray-400 text-sm">Phone</p>

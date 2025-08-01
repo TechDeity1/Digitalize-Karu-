@@ -61,16 +61,16 @@ export default function HomePage() {
             {/* Logo */}
             <div className="flex items-center space-x-3">
               <div className="relative">
-                <div className="w-12 h-12 bg-gradient-to-br from-emerald-600 to-emerald-700 rounded-xl flex items-center justify-center shadow-lg">
-                  <span className="text-white font-bold text-xl">DN</span>
+                <div className=logo">
+                  <span className="img ssrc=.app/public/DIGITALIZE NASARAWA LOGO.Png"></span>
                 </div>
                 <div className="absolute -top-1 -right-1 w-4 h-4 bg-blue-500 rounded-full animate-pulse"></div>
               </div>
               <div>
                 <h1 className="text-2xl font-bold bg-gradient-to-r from-emerald-700 to-blue-600 bg-clip-text text-transparent">
-                  DIGITALIZE NASARAWA
+                
                 </h1>
-                <p className="text-sm text-gray-600 font-medium">Student E-Facility Platform</p>
+                <p className="text-sm text-gray-600 font-medium">Transforming Nasarawa One Byte at a Time</p>
               </div>
             </div>
 
